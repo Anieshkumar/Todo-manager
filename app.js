@@ -8,14 +8,36 @@ app.use(bodyParser.json());
 
 app.set("view engine","ejs")
 app.get("/", async (request,response) => {
-  const allTodos = await Todo.getTodo();
+  const overdue = await Todo.overdue();
+  const dueToday = await Todo.dueToday();
+  const dueLater = await Todo.dueLater();
+  const completedTodo = await Todo.completedTodo();
   if(request.accepts("html")) {
     response.render('index', {
-      allTodos
+      overdue,
+      dueToday,
+      dueLater,
+      completedTodo
     });
   } else{
     response.json({
-      allTodos
+      overdue,
+      dueToday,
+      dueLater,
+      completedTodo
+    })
+  }
+  
+});
+app.get("/", async (request,response) => {
+  const overdue = await Todo.overdue();
+  if(request.accepts("html")) {
+    response.render('index', {
+      overdue
+    });
+  } else{
+    response.json({
+      overdue
     })
   }
   
@@ -30,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
-  // FILL IN YOUR CODE HERE
+
   try {
     const todo = await Todo.findAll({ order: [["id", "ASC"]] });
     return response.json(todo);
@@ -38,9 +60,7 @@ app.get("/todos", async function (_request, response) {
     console.log(error);
     return response.status(422).json(error);
   }
-  // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
-  // Then, we have to respond with all Todos, like:
-  // response.send(todos)
+
 });
 
 app.get("/todos/:id", async function (request, response) {
@@ -78,7 +98,7 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
 app.delete("/todos/:id", async function (request, response) {
     try{
   console.log("We have to delete a Todo with ID: ", request.params.id);
-  // FILL IN YOUR CODE HERE
+
   const todo = await Todo.destroy({
     where: {
       id: request.params.id,
@@ -89,9 +109,7 @@ app.delete("/todos/:id", async function (request, response) {
   console.log(error);
   return response.status(422).json(error);
 }
-  // First, we have to query our database to delete a Todo by ID.
-  // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
-  // response.send(true)
+
 });
 
 module.exports = app;
