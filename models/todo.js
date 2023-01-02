@@ -49,6 +49,13 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
     static async completedTodo() {
       return await Todo.findAll({
         where: {
