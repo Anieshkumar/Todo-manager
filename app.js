@@ -1,9 +1,14 @@
 const express = require("express");
+var csurf = require("tiny-csrf")
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+var cookieParser= require("cookie-parser")
 const path = require("path");
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("shh! some secret string"));
+app.use(csurf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
+
 
 app.use(bodyParser.json());
 
@@ -12,32 +17,21 @@ app.get("/", async (request, response) => {
   const overdue = await Todo.overdue();
   const dueToday = await Todo.dueToday();
   const dueLater = await Todo.dueLater();
-  const completedTodo = await Todo.completedTodo();
+  const completed = await Todo.completedTodo();
   if (request.accepts("html")) {
     response.render("index", {
       overdue,
       dueToday,
       dueLater,
-      completedTodo,
+      completed,
+      csrfToken: request.csrfToken(),
     });
   } else {
     response.json({
       overdue,
       dueToday,
       dueLater,
-      completedTodo,
-    });
-  }
-});
-app.get("/", async (request, response) => {
-  const overdue = await Todo.overdue();
-  if (request.accepts("html")) {
-    response.render("index", {
-      overdue,
-    });
-  } else {
-    response.json({
-      overdue,
+      completed,
     });
   }
 });
@@ -84,9 +78,10 @@ app.post("/todos", async function (request, response) {
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
-  const todo = await Todo.findByPk(request.params.id);
+app.put("/todos/:id", async function (request, response) {
+  
   try {
+    const todo = await Todo.findByPk(request.params.id);
     const updatedTodo = await todo.markAsCompleted();
     return response.json(updatedTodo);
   } catch (error) {

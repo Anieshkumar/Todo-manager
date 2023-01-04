@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.lt]: new Date().toLocaleDateString("en-CA") },
-          completed: false,
         },
         order: [["id", "ASC"]],
       });
@@ -33,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.eq]: new Date().toLocaleDateString("en-CA") },
-          completed: false,
         },
         order: [["id", "ASC"]],
       });
@@ -43,7 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.gt]: new Date().toLocaleDateString("en-CA") },
-          completed: false,
         },
         order: [["id", "ASC"]],
       });
@@ -59,7 +56,6 @@ module.exports = (sequelize, DataTypes) => {
     static async completedTodo() {
       return await Todo.findAll({
         where: {
-          completed: true,
         },
       });
     }

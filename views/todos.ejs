@@ -13,9 +13,8 @@
         class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50"
       >
         <input
-          type="checkbox"
+          type="checkbox" onclick ="updateTodo('<%= overdue[i].id %>')"
           <%= overdue[i].completed ? "checked" : "" %>
-          onclick ="updateTodo(<%= overdue[i].id %>)"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
           id="overdue<%= i %>"
         />
@@ -25,7 +24,7 @@
         >
           <%= overdue[i].title %>
         </label>
-        <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo(<%= overdue[i].id %>)">
+        <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo('<%= overdue[i].id %>')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -58,9 +57,8 @@
         class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50"
       >
         <input
-          type="checkbox"
+          type="checkbox" onclick="updateTodo('<%= dueToday[i].id %>')"
           <%= dueToday[i].completed ? "checked" : "" %>
-          onclick="updateTodo(<%= dueToday[i].id %>)"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
           id="dueToday<%= i %>"
         />
@@ -70,7 +68,7 @@
         >
           <%= dueToday[i].title %>
         </label>
-        <a href="#" class="hidden trash-icon ml-2">
+        <a href="#" class="hidden trash-icon ml-2 "onclick="deleteTodo('<%= dueToday[i].id %>')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -103,9 +101,8 @@
         class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50"
       >
         <input
-          type="checkbox"
+          type="checkbox" onclick="updateTodo('<%= dueLater[i].id %>')"
           <%= dueLater[i].completed ? "checked" : "" %>
-          onclick="updateTodo(<%= dueLater[i].id %>)"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
           id="dueLater<%= i %>"
         />
@@ -115,7 +112,7 @@
         >
           <%= dueLater[i].title %>
         </label>
-        <a href="#" class="hidden trash-icon ml-2">
+        <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo('<%= dueLater[i].id %>')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
