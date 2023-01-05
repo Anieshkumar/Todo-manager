@@ -106,9 +106,9 @@ describe("Todo Application", function () {
         _csrf: csrfToken,
        });
        const deletestatus = JSON.parse(deleteResponse.text);
-       deletestatus
-         ? expect(deletestatus).toBe(true)
-         : expect(deletestatus).toBe(false);
+       deletestatus.success
+         ? expect(deletestatus.success).toBe(true)
+         : expect(deletestatus.success).toBe(false);
  });
 
 test("Updates a todo", async () => {
