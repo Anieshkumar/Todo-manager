@@ -87,6 +87,7 @@ describe("Todo Application", function () {
          dueDate: new Date().toISOString(),
          completed: false,
        });
+       // eslint-disable-next-line no-unused-vars
        const response = await agent.post("/todos").send({
           title: "Buy milk",
          dueDate: new Date().toISOString(),
