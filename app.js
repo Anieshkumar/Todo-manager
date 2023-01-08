@@ -1,5 +1,5 @@
 const express = require("express");
-var csurf  = require("tiny-csrf");
+var csurf = require("tiny-csrf");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
@@ -8,12 +8,12 @@ const path = require("path");
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("shh! some secret string"));
-app.use(csurf("this_should_be_32_character_long",["POST", "PUT", "DELETE"]));
+app.use(csurf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
-app.set("view engine","ejs");
-app.use(express.static(path.join(__dirname,'public')));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", async (request, response)  => {
+app.get("/", async (request, response) => {
   const overdue = await Todo.overdue();
   const dueToday = await Todo.duetoday();
   const dueLater = await Todo.duelater();
@@ -40,16 +40,13 @@ app.get("/", function (request, response) {
   response.send("Hello World");
 });
 
-
-
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
   try {
-    const todos = await Todo.findAll({ order : [[ "id" , "ASC" ]]})
+    const todos = await Todo.findAll({ order: [["id", "ASC"]] });
     return response.json(todos);
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error);
     return response.status(422).json(error);
   }
@@ -99,9 +96,9 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
 
 app.delete("/todos/:id", async (request, response) => {
   console.log("We have to delete a Todo with ID: ", request.params.id);
-  try{
+  try {
     await Todo.remove(request.params.id);
-    return response.json({success: true});
+    return response.json({ success: true });
   } catch (error) {
     return response.status(422).json(error);
   }

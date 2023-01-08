@@ -1,5 +1,5 @@
 "use strict";
-const { Model , Op } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     static getTodos() {
       return this.findAll();
     }
-    
+
     static async showList() {
       console.log("My Todo list \n");
 
@@ -58,19 +58,19 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.lt]: new Date().toLocaleDateString("en-CA") },
-          completed:false,
+          completed: false,
         },
-        order: [["id","ASC"]],
+        order: [["id", "ASC"]],
       });
     }
-    
+
     static async duetoday() {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.eq]: new Date().toLocaleDateString("en-CA") },
-          completed:false,
+          completed: false,
         },
-        order: [["id","ASC"]],
+        order: [["id", "ASC"]],
       });
     }
 
@@ -78,9 +78,9 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.gt]: new Date().toLocaleDateString("en-CA") },
-          completed:false,
+          completed: false,
         },
-        order: [["id","ASC"]],
+        order: [["id", "ASC"]],
       });
     }
 
@@ -93,29 +93,29 @@ module.exports = (sequelize, DataTypes) => {
     }
     static async remove(id) {
       return this.destroy({
-        where :{
+        where: {
           id,
         },
       });
     }
     setCompletionStatus(completed) {
-      return this.update({ completed : completed } );
+      return this.update({ completed: completed });
     }
-
   }
   Todo.init(
     {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-     }, dueDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+      },
+      dueDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
