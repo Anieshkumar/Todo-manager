@@ -112,7 +112,7 @@ describe("Todo Application", function () {
          : expect(deletestatus.success).toBe(false);
  });
 
-test("Updates a todo", async () => {
+test("Updates a todo as complete / incomplete", async () => {
   let res = await agent.get("/");
   let csrfToken = extractCsrfToken(res);
   await agent.post("/todos").send({

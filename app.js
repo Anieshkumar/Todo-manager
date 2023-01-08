@@ -85,7 +85,17 @@ app.put("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
-
+app.put("/todos/:id/markAsCompleted", async (request, response) => {
+  console.log("we have to update a todo with ID:", request.params.id);
+  const todo = await Todo.findByPk(request.params.id);
+  try {
+    const updatedtodo = await todo.setCompletionStatus(request.body.completed);
+    return response.json(updatedtodo);
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
 
 app.delete("/todos/:id", async (request, response) => {
   console.log("We have to delete a Todo with ID: ", request.params.id);
